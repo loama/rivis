@@ -30,9 +30,14 @@
 
     <div id="postings">
       <div class="posting" v-for="posting in postings" v-bind:key="posting.id">
-        {{posting.id}}
+        <div class="image"></div>
+        <div class="details">
+          {{posting.id}}
+        </div>
       </div>
     </div>
+
+    <div id="mapContainer"></div>
 
   </div>
 </template>
@@ -69,6 +74,24 @@ export default {
       ]
     }
   },
+  mounted () {
+    var platform = new H.service.Platform({
+      'app_id': 'kdP9M4AJwRrqi9oBFbYa',
+      'app_code': 'QxJ3RqVxjbkq0HF85rE9yA'
+    })
+
+    // Obtain the default map types from the platform object:
+    var defaultLayers = platform.createDefaultLayers()
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+      document.getElementById('mapContainer'),
+      defaultLayers.normal.map,
+      {
+        zoom: 10,
+        center: { lat: 52.5, lng: 13.4 }
+      })
+  },
   props: {
     msg: String
   }
@@ -91,8 +114,17 @@ export default {
   background: gray;
 }
 
+#mapContainer {
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  height: 400px;
+  width: calc(100vw - 100px);
+}
+
 #filters {
   position: sticky;
+  z-index: 999;
   top: 56px;
   left: 10vw;
   margin-top: 40px;
@@ -114,9 +146,29 @@ export default {
   display: inline-block;
   height: 200px;
   width: 50%;
-  box-shadow: 0 1px 3px #D0D0D0;
+  box-shadow: 0 1px 2px #D0D0D0;
   margin: 4px;
+  cursor: pointer;
   border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.posting:hover {
+  box-shadow: 0 1px 8px #AAA;
+}
+
+.posting .image {
+  top: 0;
+  left: 0;
+  height: 128px;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: gray;
+}
+
+.posting .details {
+  height: 72px;
+  width: 100%;
 }
 
 @media screen and (min-width: 568px) {
