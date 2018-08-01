@@ -16,7 +16,8 @@
   "dependencies": {
     "vue": "^2.5.2",
     "vue-carousel": "^0.10.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-script2": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

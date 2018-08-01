@@ -26,10 +26,16 @@
     </carousel>
 
     <div id="filters">
+      <div class="map" v-on:click="map = !map">
+        <span v-if="map">list</span>
+        <span v-if="!map">map</span>
+      </div>
     </div>
 
     <div id="postings">
-      <div class="posting" v-for="posting in postings" v-bind:key="posting.id">
+      <div class="posting"
+           v-for="posting in postings" v-bind:key="posting.id"
+           v-on:click="$router.push('/campaign/' + posting.id)">
         <div class="image"></div>
         <div class="details">
           {{posting.id}}
@@ -37,7 +43,7 @@
       </div>
     </div>
 
-    <div id="mapContainer"></div>
+    <div id="mapContainer" v-bind:class="{show: map}"></div>
 
   </div>
 </template>
@@ -45,13 +51,17 @@
 <script>
 import Vue from 'vue'
 import VueCarousel from 'vue-carousel'
+import VueScript2 from 'vue-script2'
 
 Vue.use(VueCarousel)
+
+Vue.use(require('vue-script2'))
 
 export default {
   name: 'explore',
   data () {
     return {
+      map: false,
       postings: [
         {
           id: 1
@@ -75,22 +85,45 @@ export default {
     }
   },
   mounted () {
-    var platform = new H.service.Platform({
-      'app_id': 'kdP9M4AJwRrqi9oBFbYa',
-      'app_code': 'QxJ3RqVxjbkq0HF85rE9yA'
-    })
+    VueScript2.load('https://js.api.here.com/v3/3.0/mapsjs-core.js').then(function () {
+      VueScript2.load('https://js.api.here.com/v3/3.0/mapsjs-service.js').then(function () {
+        VueScript2.load('https://js.cit.api.here.com/v3/3.0/mapsjs-mapevents.js').then(function () {
+          /* eslint-disable */
+          var platform = new H.service.Platform({
+            'app_id': 'kdP9M4AJwRrqi9oBFbYa',
+            'app_code': 'QxJ3RqVxjbkq0HF85rE9yA',
+            'useHTTPS': true
+          })
 
-    // Obtain the default map types from the platform object:
-    var defaultLayers = platform.createDefaultLayers()
+          // Obtain the default map types from the platform object:
+          var defaultLayers = platform.createDefaultLayers()
 
-    // Instantiate (and display) a map object:
-    var map = new H.Map(
-      document.getElementById('mapContainer'),
-      defaultLayers.normal.map,
-      {
-        zoom: 10,
-        center: { lat: 52.5, lng: 13.4 }
+          // Instantiate (and display) a map object:
+          var map = new H.Map(
+            document.getElementById('mapContainer'),
+            defaultLayers.terrain.map,
+            {
+              type: 'terrain',
+              zoom: 13,
+              center: { lat: 52.5, lng: 13.4 }
+            })
+
+          var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map))
+
+          var animatedSvg = '<a href="#/campaign/2"><div class="markerIcon" style="height:200px; width: 200px; background: #F00"></div></a>';
+
+          // Create an icon, an object holding the latitude and longitude, and a marker:
+          var icon = new H.map.DomIcon(animatedSvg),
+            coords = {lat: 52.53075, lng: 13.3851},
+            marker = new H.map.DomMarker(coords, {icon: icon})
+
+          // Add the marker to the map and center the map at the location of the marker:
+          map.addObject(marker)
+          map.setCenter(coords)
+          /* eslint-enable */
+        })
       })
+    })
   },
   props: {
     msg: String
@@ -115,11 +148,24 @@ export default {
 }
 
 #mapContainer {
-  position: absolute;
-  top: 100px;
-  left: 50px;
-  height: 400px;
-  width: calc(100vw - 100px);
+  position: fixed;
+  z-index: 990;
+  top: 48px;
+  left: 0;
+  height: calc(100vh - 48px);
+  width: 100vw;
+  background: #E0E6E9;
+  transform: translate3d(0, -100vh, 0);
+}
+
+#mapContainer.show {
+  transform: translate3d(0, 0, 0);
+}
+
+.markerIcon {
+  height: 20px;
+  width: 20px;
+  background: red;
 }
 
 #filters {
