@@ -42,6 +42,8 @@
     ],
     "rewrites": [
       { "source": "/alexa", "function": "alexa" },
+      { "source": "/nonProfits", "function": "nonProfits" },
+      { "source": "/payments", "function": "payments" },
       {
         "source": "**",
         "destination": "/index.html"

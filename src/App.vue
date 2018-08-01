@@ -6,12 +6,28 @@
 </template>
 
 <script>
+import axios from 'axios'
 import navbar from './components/navbar.vue'
 
 export default {
   name: 'app',
   components: {
     navbar
+  },
+  mounted () {
+    var self = this
+    axios
+      .get('https://rivis.app/nonProfits')
+      .then(function (response) {
+        self.$store.commit('nonProfits', response.data)
+        console.log(response.data)
+      })
+
+    /* var apiKey = '9J8SI59QGCK0KODPUTHS21wizipqk3emCHTBBZUb9dMPTbv0E'
+    var baseUri = 'cybersource/'
+    var resourcePath = 'payments/v1/authorizations'
+    var queryParams = 'apikey=' + apiKey */
+    // visaAPIClient.doXPayRequest(baseUri, resourcePath, queryParams, paymentAuthorizationRequest, 'POST', {}
   }
 }
 </script>

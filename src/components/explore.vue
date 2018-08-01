@@ -32,13 +32,18 @@
       </div>
     </div>
 
-    <div id="postings">
-      <div class="posting"
-           v-for="posting in postings" v-bind:key="posting.id"
-           v-on:click="$router.push('/campaign/' + posting.id)">
-        <div class="image"></div>
+    <div id="nonProfits">
+      <div class="nonProfit"
+           v-for="nonProfit in nonProfits" v-bind:key="nonProfit.id"
+           v-on:click="$router.push('/campaign/' + nonProfit.id)">
+        <div class="image" v-bind:style="{backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/' + nonProfit.posting_img_url + '?alt=media)'}"></div>
         <div class="details">
-          {{posting.id}}
+          <div class="logo"
+                  v-bind:style="{backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/' + nonProfit.logo_url + '?alt=media)'}"></div>
+          <div class="description">
+            <div class="title">{{nonProfit.name}}</div>
+            <div class="short">{{nonProfit.description_short}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -59,6 +64,11 @@ Vue.use(require('vue-script2'))
 
 export default {
   name: 'explore',
+  computed: {
+    nonProfits () {
+      return this.$store.state.nonProfits
+    }
+  },
   data () {
     return {
       map: false,
@@ -181,14 +191,14 @@ export default {
   background: #FFFFFF;
 }
 
-#postings {
+#nonProfits {
   width: calc(100vw - 16px);
   margin-left: 8px;
   margin-top: 20px;
   text-align: left;
 }
 
-.posting {
+.nonProfit {
   display: inline-block;
   height: 200px;
   width: 50%;
@@ -199,32 +209,64 @@ export default {
   transition: all 0.15s;
 }
 
-.posting:hover {
+.nonProfit:hover {
   box-shadow: 0 1px 8px #AAA;
 }
 
-.posting .image {
+.nonProfit .image {
   top: 0;
   left: 0;
   height: 128px;
   width: 100%;
   border-radius: 4px 4px 0 0;
   background: gray;
+  background-size: cover;
+  background-position: center;
 }
 
-.posting .details {
+.nonProfit .details {
   height: 72px;
   width: 100%;
 }
 
+.nonProfit .details .logo {
+  display: inline-block;
+  margin: 4px;
+  height: 64px;
+  width: 64px;
+  background-size: contain;
+  background-position: center;
+}
+
+.nonProfit .details .description {
+  display: inline-block;
+  height: 64px;
+  width: calc(100% - 84px);
+}
+
+.nonProfit .details .description div {
+  float: left;
+}
+
+.nonProfit .details .description div.title {
+
+}
+
+.nonProfit .details .description div.short {
+  font-size: 13px;
+  max-height: 40px;
+  line-height: 20px;
+  overflow: hidden;
+}
+
 @media screen and (min-width: 568px) {
-  .posting {
+  .nonProfit {
     width: 33%;
   }
 }
 
 @media screen and (min-width: 1024px) {
-  .posting {
+  .nonProfit {
     width: calc(25% - 8px);
   }
 }
