@@ -249,7 +249,10 @@ export default {
 }
 
 .nonProfit .details .description div.title {
-
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .nonProfit .details .description div.short {

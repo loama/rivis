@@ -39,6 +39,18 @@ html, body {
   padding: 0;
 }
 
+.plainlinks.metadata.ambox.ambox-content.ambox-Update {
+  display: none;
+}
+
+.thumbinner {
+  float: right;
+}
+
+.mw-editsection {
+  display: none;
+}
+
 #app {
   font-family: 'America-Regular', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -66,5 +78,9 @@ html, body {
   position: relative;
   height: 180px;
   border-radius: 2px;
+}
+
+span.source {
+  display: none;
 }
 </style>

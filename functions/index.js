@@ -31,8 +31,8 @@ exports.nonProfits = functions.https.onRequest((request, response) => {
       response.json({'error':'please try again', 'details':err})
     })
 
-  } else if (request.method === 'POST') {
-    response.json('POST')
+  } else {
+    response.json({'result':'error HTTP method not active', 'message':'you can´t do this yet. But thanks for trying :)'})
   }
 
 })
