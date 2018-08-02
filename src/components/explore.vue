@@ -9,23 +9,36 @@
               :perPageCustom="[[320, 1], [564, 2], [1024, 3]]">
 
       <slide>
-        <div class="explore-slide"></div>
+        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/mexhead.jpg?alt=media)">
+        </div>
       </slide>
 
       <slide>
-        <div class="explore-slide">Slide 2 Content</div>
+        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/indonesia.jpg?alt=media)">
+        </div>
       </slide>
 
       <slide>
-        <div class="explore-slide">slide 3 content</div>
+        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/japan.jpg?alt=media)">
+        </div>
       </slide>
 
       <slide>
-        <div class="explore-slide">slide 4 Content</div>
+        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/tornadocanada.jpg?alt=media)">
+        </div>
       </slide>
     </carousel>
 
     <div id="filters">
+      <ul>
+        <li v-bind:class="{active: filter.active === 'all'}">all</li>
+        <li v-bind:class="{active: filter.active === 'kids'}">kids</li>
+        <li v-bind:class="{active: filter.active === 'environment'}">environment</li>
+        <li v-bind:class="{active: filter.active === 'food'}">food</li>
+        <li v-bind:class="{active: filter.active === 'rights'}">rights</li>
+        <li v-bind:class="{active: filter.active === 'health'}">health</li>
+        <li v-bind:class="{active: filter.active === 'arts'}">arts</li>
+      </ul>
       <div class="map" v-on:click="map = !map">
         <span v-if="map">list</span>
         <span v-if="!map">map</span>
@@ -72,6 +85,9 @@ export default {
   data () {
     return {
       map: false,
+      filter: {
+        active: 'all'
+      },
       postings: [
         {
           id: 1
@@ -144,7 +160,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .explore {
-  height: 10000px;
+  padding-bottom: 80px;
 }
 
 .explore-slide {
@@ -155,6 +171,8 @@ export default {
   width: calc(100% - 8px);
   border-radius: 2px;
   background: gray;
+  background-size: cover;
+  background-position: center;
 }
 
 #mapContainer {
@@ -179,16 +197,37 @@ export default {
 }
 
 #filters {
-  position: sticky;
+  position: fixed;
   z-index: 999;
-  top: 56px;
-  left: 10vw;
+  top: 8px;
+  left: 0;
   margin-top: 40px;
-  height: 120px;
-  width: 80vw;
+  height: 40px;
+  width: 100vw;
   box-shadow: 0 1px 3px #D0D0D0;
-  border-radius: 4px;
+  border-radius: 0 0 4px 4px;
   background: #FFFFFF;
+  line-height: 40px;
+}
+
+#filters ul {
+  padding: 0 16px;
+  margin: 0;
+  list-style: none;
+  text-align: left;
+}
+
+#filters ul li {
+  display: inline-block;
+  margin: 0 16px;
+  cursor: pointer;
+}
+
+#filters .map {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  cursor: pointer;
 }
 
 #nonProfits {

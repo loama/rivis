@@ -2,7 +2,7 @@
   <div class="campaign">
     <div class="donate-div"></div>
 
-    <div class="header-image" v-bind:style="{backgroundImage: 'url(' + article.headerImgSrc + ')'}"></div>
+    <div class="header-image" v-bind:style="{backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/' + nonProfit.posting_img_url + '?alt=media)'}"></div>
 
     <div class="header">
       <span class="title" id="articleTitle">{{nonProfit.name}}</span>

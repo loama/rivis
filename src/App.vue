@@ -4,17 +4,20 @@
     <keep-alive>
       <router-view/>
     </keep-alive>
+    <footerSection />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import navbar from './components/navbar.vue'
+import footerSection from './components/footerSection.vue'
 
 export default {
   name: 'app',
   components: {
-    navbar
+    navbar,
+    footerSection
   },
   mounted () {
     var self = this
@@ -75,7 +78,7 @@ html, body {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  background: #F0F0F0;
+  background: #F2F4F7;
 }
 
 @font-face {
@@ -94,7 +97,7 @@ html, body {
 
 .explore .VueCarousel-slide {
   position: relative;
-  height: 180px;
+  height: 240px;
   border-radius: 2px;
 }
 
