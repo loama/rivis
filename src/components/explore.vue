@@ -10,21 +10,29 @@
 
       <slide>
         <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/mexhead.jpg?alt=media)">
+          <div class="title">Mexico Earthquake</div>
+          <div class="date">September, 2017</div>
         </div>
       </slide>
 
       <slide>
         <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/indonesia.jpg?alt=media)">
+          <div class="title">Indonesia Earthquake</div>
+          <div class="date">July, 2018</div>
         </div>
       </slide>
 
       <slide>
         <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/japan.jpg?alt=media)">
+          <div class="title">Japan Tsunami</div>
+          <div class="date">March, 2011</div>
         </div>
       </slide>
 
       <slide>
         <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/tornadocanada.jpg?alt=media)">
+          <div class="title">Tornado in Ontario</div>
+          <div class="date">June, 2018</div>
         </div>
       </slide>
     </carousel>
@@ -187,6 +195,27 @@ export default {
   background: gray;
   background-size: cover;
   background-position: center;
+}
+
+.explore-slide .title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 72px;
+  padding-left: 32px;
+  width: calc(100vw - 40px);
+  text-align: left;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0, 0.1));
+  font-size: 32px;
+  color: #FFFFFF;
+}
+
+.explore-slide .date {
+  position: absolute;
+  bottom: 12px;
+  left: 34px;
+  font-size: 16px;
+  color: #FFFFFF;
 }
 
 #mapContainer {

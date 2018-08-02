@@ -1,6 +1,8 @@
 <template>
   <div class="campaign">
-    <div class="donate-div"></div>
+    <div class="donate-div">
+      DONATE
+    </div>
 
     <div class="header-image" v-bind:style="{backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/' + nonProfit.posting_img_url + '?alt=media)'}"></div>
 
@@ -108,13 +110,6 @@ export default {
   },
   mounted () {
     var it = this
-    window.onclick = function (e) {
-      if (e.target.tagName === 'A') {
-        console.log(e.target.href)
-        e.preventDefault()
-        window.open('https://wikipedia.org/en' + e.target.href.split('wiki')[1], '_blank')
-      }
-    }
     this.loadArticle()
     setTimeout(function () {
       document.addEventListener('mouseover', function (e) {
@@ -267,11 +262,16 @@ div.hover-article div.loading-screen {
   top: 56px;
   left: calc(100vw - 180px);
   margin-top: 8px;
-  height: 200px;
+  height: 40px;
   width: 240px;
-  background: #FFFFFF;
+  background: #1EDA9F;
+  color: #FFFFFF;
   border-radius: 4px;
   box-shadow: 0 1px 3px #D0D0D0;
+  font-family: 'America-Medium';
+  text-align: center;
+  line-height: 36px;
+  cursor: pointer;
 }
 
 </style>
