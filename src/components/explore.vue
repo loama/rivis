@@ -35,7 +35,7 @@
     <div id="nonProfits">
       <div class="nonProfit"
            v-for="nonProfit in nonProfits" v-bind:key="nonProfit.id"
-           v-on:click="$router.push('/campaign/' + nonProfit.id)">
+           v-on:click="$router.push('/campaign/' + nonProfit.wikipedia_title)">
         <div class="image" v-bind:style="{backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/' + nonProfit.posting_img_url + '?alt=media)'}"></div>
         <div class="details">
           <div class="logo"
@@ -207,6 +207,7 @@ export default {
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.15s;
+  background: #FFFFFF;
 }
 
 .nonProfit:hover {
@@ -236,6 +237,7 @@ export default {
   width: 64px;
   background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .nonProfit .details .description {

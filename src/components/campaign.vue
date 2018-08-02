@@ -1,8 +1,17 @@
 <template>
   <div class="campaign">
-    <span class="title" id="articleTitle">{{this.article.parsedTitle}}</span>
-    <hr class="title" id="articleLine">
-    <span class="source" id="articleSource">From Wikipedia, the free encyclopedia</span>
+    <div class="donate-div"></div>
+
+    <div class="header-image" v-bind:style="{backgroundImage: 'url(' + article.headerImgSrc + ')'}"></div>
+
+    <div class="header">
+      <span class="title" id="articleTitle">{{nonProfit.name}}</span>
+      <hr class="title" id="articleLine">
+      <span class="source" id="articleSource">From Wikipedia, the free encyclopedia</span>
+
+      <div class="logo" v-bind:style="{backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/' + nonProfit.logo_url + '?alt=media)'}">
+      </div>
+    </div>
 
     <div class="article" v-html="this.article.rawContent">
     </div>
@@ -27,12 +36,23 @@
 import router from '../router'
 export default {
   name: 'campaign',
+  computed: {
+    nonProfit () {
+      for (var i = 0; i < this.$store.state.nonProfits.length; i++) {
+        if (this.$store.state.nonProfits[i].wikipedia_title === this.$route.params.id) {
+          var nonProfit = this.$store.state.nonProfits[i]
+        }
+      }
+      return nonProfit
+    }
+  },
   data () {
     return {
       article: {
         rawTitle: '',
-        parsedTitle: 'SOS_Children\'s_Villages',
-        rawContent: ''
+        parsedTitle: '',
+        rawContent: '',
+        headerImgSrc: ''
       },
       hoverArticle: {
         left: 0,
@@ -47,23 +67,18 @@ export default {
   },
   methods: {
     loadArticle () {
-      // this.$store.commit('articleTitle', this.article.parsedTitle)
+      this.article.parsedTitle = this.$route.params.id
       var wikiurl = 'https://en.wikipedia.org/w/api.php?action=parse&format=json&page='
       this.$jsonp(wikiurl + this.article.parsedTitle).then(json => {
         this.article.rawContent = json.parse.text['*']
+        var fullPath = json.parse.text['*'].split('<img')[2].split('src="//')[1].split('"')[0].replace('/thumb', '')
+        var lastPath = fullPath.split('/')[fullPath.split('/').length - 1]
+        var realPath = fullPath.replace('/' + lastPath, '')
+        this.article.headerImgSrc = 'https://' + realPath
       }).catch(err => {
         console.log(err)
         this.article.parsedTitle = 'we couldn´t find that article :('
       })
-      if (this.article.parsedTitle === 'Main Page') {
-        document.getElementById('articleTitle').style.display = 'none'
-        document.getElementById('articleLine').style.display = 'none'
-        document.getElementById('articleSource').style.display = 'none'
-      } else {
-        document.getElementById('articleTitle').style.display = 'block'
-        document.getElementById('articleLine').style.display = 'block'
-        document.getElementById('articleSource').style.display = 'block'
-      }
     },
     loadHoverArticle (title, link) {
       this.hoverArticle.loading = true
@@ -89,31 +104,18 @@ export default {
         console.log(err)
         this.article.parsedTitle = 'we couldn´t find that article :('
       })
-    },
-    handleScroll: function (e) {
-      if (e.pageY > 180) {
-        // this.$store.commit('articleTransparency', false)
-      } else {
-        // this.$store.commit('articleTransparency', true)
-      }
     }
   },
   mounted () {
     var it = this
     window.onclick = function (e) {
       if (e.target.tagName === 'A') {
+        console.log(e.target.href)
         e.preventDefault()
-        if (e.target.className.includes('external')) {
-          window.open(e.target.href, '_blank')
-        } else {
-          router.push(e.target.attributes[0].value)
-          window.scrollTo(0, 0)
-          it.loadArticle()
-        }
+        window.open('https://wikipedia.org/en' + e.target.href.split('wiki')[1], '_blank')
       }
     }
     this.loadArticle()
-    window.addEventListener('scroll', this.handleScroll)
     setTimeout(function () {
       document.addEventListener('mouseover', function (e) {
         if (e.target.nodeName === 'A') {
@@ -145,11 +147,22 @@ export default {
 <style scoped>
 .campaign {
   text-align: left;
-  padding: 16px 24px;
+  padding: 156px 12px 24px 24px;
+  background: #FFFFFF;
+}
+
+.header-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 200px;
+  width: 100vw;
+  background-position: center;
+  background-size: cover;
 }
 
 span.title {
-  font-family: 'AvenirNextRoundedPro-Med';
+  font-family: 'America-Regular';
   font-size: 1.5rem;
 }
 
@@ -165,8 +178,9 @@ span.source {
 }
 
 div.article {
-  margin-top: 16px;
+  margin-top: 24px;
   font-size: 0.875rem;
+  max-width: calc(100vw - 280px);
 }
 
 div.hover-article {
@@ -210,7 +224,7 @@ div.hover-article div.img {
 }
 
 div.hover-article div.title {
-  font-family: 'AvenirNextRoundedPro-Med';
+  font-family: 'America-Medium';
   color: #191919;
   padding: 8px;
   border-bottom: 1px solid #e5e5e5;
@@ -234,6 +248,30 @@ div.hover-article div.loading-screen {
   height: 200px;
   background: white;
   border-radius: 2px;
+}
+
+.logo {
+  position: absolute;
+  top: 216px;
+  left: 24px;
+  height: 56px;
+  width: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.donate-div {
+  position: sticky;
+  float: right;
+  top: 56px;
+  left: calc(100vw - 180px);
+  margin-top: 8px;
+  height: 200px;
+  width: 240px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px #D0D0D0;
 }
 
 </style>

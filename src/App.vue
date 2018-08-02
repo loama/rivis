@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <navbar />
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
@@ -44,11 +46,26 @@ html, body {
 }
 
 .thumbinner {
+  clear: right;
   float: right;
+  margin: 8px 8px 24px 16px;
+}
+
+.thumbimage {
+  border-radius: 4px;
 }
 
 .mw-editsection {
   display: none;
+}
+
+.reference {
+  display: none;
+}
+
+.article a {
+  text-decoration: none;
+  color: blue;
 }
 
 #app {
@@ -58,6 +75,7 @@ html, body {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background: #F0F0F0;
 }
 
 @font-face {
@@ -80,7 +98,32 @@ html, body {
   border-radius: 2px;
 }
 
+.hide, .fadeOutToNone {
+  display: none;
+}
+
 span.source {
   display: none;
+}
+
+.infobox.vcard {
+  display: none;
+}
+
+#toc {
+  display: none;
+}
+
+#articleSource {
+  display: block;
+  margin-left: 88px;
+}
+
+#articleTitle {
+  margin-left: 88px;
+}
+
+#articleLine {
+  margin-left: 80px;
 }
 </style>
