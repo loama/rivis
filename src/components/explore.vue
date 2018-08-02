@@ -6,7 +6,7 @@
               :loop="true"
               :navigationEnabled="false"
               :paginationEnabled="false"
-              :perPageCustom="[[320, 1], [564, 2], [1024, 3]]">
+              :perPageCustom="[[320, 1]]">
 
       <slide>
         <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/mexhead.jpg?alt=media)">
@@ -31,13 +31,13 @@
 
     <div id="filters">
       <ul>
-        <li v-bind:class="{active: filter.active === 'all'}">all</li>
-        <li v-bind:class="{active: filter.active === 'kids'}">kids</li>
-        <li v-bind:class="{active: filter.active === 'environment'}">environment</li>
-        <li v-bind:class="{active: filter.active === 'food'}">food</li>
-        <li v-bind:class="{active: filter.active === 'rights'}">rights</li>
-        <li v-bind:class="{active: filter.active === 'health'}">health</li>
-        <li v-bind:class="{active: filter.active === 'arts'}">arts</li>
+        <li v-bind:class="{active: filter.active === 'all'}" v-on:click="filter.active = 'all'">all</li>
+        <li v-bind:class="{active: filter.active === 'kids'}" v-on:click="filter.active = 'kids'">kids</li>
+        <li v-bind:class="{active: filter.active === 'environment'}" v-on:click="filter.active = 'environment'">environment</li>
+        <li v-bind:class="{active: filter.active === 'food'}" v-on:click="filter.active = 'food'">food</li>
+        <li v-bind:class="{active: filter.active === 'rights'}" v-on:click="filter.active = 'rights'">rights</li>
+        <li v-bind:class="{active: filter.active === 'health'}" v-on:click="filter.active = 'health'">health</li>
+        <li v-bind:class="{active: filter.active === 'arts'}" v-on:click="filter.active = 'arts'">arts</li>
       </ul>
       <div class="map" v-on:click="map = !map">
         <span v-if="map">list</span>
@@ -79,6 +79,20 @@ export default {
   name: 'explore',
   computed: {
     nonProfits () {
+      var all = this.$store.state.nonProfits
+      if (this.filter.active === 'all') {
+        return all
+      } else {
+        var filtered = []
+        for (var i = 0; i < all.length; i++) {
+          if (all[i].category === this.filter.active) {
+            filtered.push(all[i])
+          }
+        }
+        return filtered
+      }
+    },
+    nonProfitsAll () {
       return this.$store.state.nonProfits
     }
   },
@@ -207,7 +221,7 @@ export default {
   box-shadow: 0 1px 3px #D0D0D0;
   border-radius: 0 0 4px 4px;
   background: #FFFFFF;
-  line-height: 40px;
+  line-height: 24px;
 }
 
 #filters ul {
@@ -219,8 +233,17 @@ export default {
 
 #filters ul li {
   display: inline-block;
-  margin: 0 16px;
+  margin: 8px 0;
+  padding: 0 16px;
   cursor: pointer;
+  border-radius: 4px;
+  height: 24px;
+}
+
+#filters ul li.active {
+  border: 1px solid #002D4B;
+  background: rgba(44, 62, 80, 0.8);
+  color: white;
 }
 
 #filters .map {
