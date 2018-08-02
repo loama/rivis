@@ -9,28 +9,28 @@
               :perPageCustom="[[320, 1]]">
 
       <slide>
-        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/mexhead.jpg?alt=media)">
+        <div class="explore-slide" v-on:click="modalChange(true, {name:'Mexico Earthquake'})" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/mexhead.jpg?alt=media)">
           <div class="title">Mexico Earthquake</div>
           <div class="date">September, 2017</div>
         </div>
       </slide>
 
       <slide>
-        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/indonesia.jpg?alt=media)">
+        <div class="explore-slide" v-on:click="modalChange(true, {name:'Indonesia Earthquake'})" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/indonesia.jpg?alt=media)">
           <div class="title">Indonesia Earthquake</div>
           <div class="date">July, 2018</div>
         </div>
       </slide>
 
       <slide>
-        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/japan.jpg?alt=media)">
+        <div class="explore-slide" v-on:click="modalChange(true, {name:'Japan Tsunami'})" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/japan.jpg?alt=media)">
           <div class="title">Japan Tsunami</div>
           <div class="date">March, 2011</div>
         </div>
       </slide>
 
       <slide>
-        <div class="explore-slide" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/tornadocanada.jpg?alt=media)">
+        <div class="explore-slide" v-on:click="modalChange(true, {name:'Tornado in Ontario'})" style="backgroundImage: url(https://firebasestorage.googleapis.com/v0/b/rivis-dd844.appspot.com/o/tornadocanada.jpg?alt=media)">
           <div class="title">Tornado in Ontario</div>
           <div class="date">June, 2018</div>
         </div>
@@ -132,6 +132,12 @@ export default {
       ]
     }
   },
+  methods: {
+    modalChange (bol, nonProfit) {
+      nonProfit.active = bol
+      this.$store.commit('modal', nonProfit)
+    }
+  },
   mounted () {
     VueScript2.load('https://js.api.here.com/v3/3.0/mapsjs-core.js').then(function () {
       VueScript2.load('https://js.api.here.com/v3/3.0/mapsjs-service.js').then(function () {
@@ -152,22 +158,22 @@ export default {
             defaultLayers.terrain.map,
             {
               type: 'terrain',
-              zoom: 13,
-              center: { lat: 52.5, lng: 13.4 }
+              zoom: 14,
+              center: { lat: 37.776409, lng: -122.422315 }
             })
 
           var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map))
 
-          var animatedSvg = '<a href="#/campaign/2"><div class="markerIcon" style="height:200px; width: 200px; background: #F00"></div></a>';
-
-          // Create an icon, an object holding the latitude and longitude, and a marker:
-          var icon = new H.map.DomIcon(animatedSvg),
-            coords = {lat: 52.53075, lng: 13.3851},
-            marker = new H.map.DomMarker(coords, {icon: icon})
+          var toronto = new H.map.Marker({lat:43.7,  lng:-79.4}),
+              boston = new H.map.Marker({lat:42.35805, lng:-71.0636}),
+              washington = new H.map.Marker({lat:38.8951, lng:-77.0366}),
+              group = new H.map.Group()
 
           // Add the marker to the map and center the map at the location of the marker:
-          map.addObject(marker)
-          map.setCenter(coords)
+          group.addObjects([toronto, boston, washington])
+          map.addObject(group)
+
+          map.setViewBounds(group.getBounds())
           /* eslint-enable */
         })
       })

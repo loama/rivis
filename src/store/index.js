@@ -26,12 +26,13 @@ const state = {
     photoURL: '',
     token: ''
   },
-  nonProfits: []
+  nonProfits: [],
+  modal: ''
 }
 
 const mutations = {
-  login (state, payload) {
-    state.user.loggedIn = true
+  modal (state, payload) {
+    state.modal = payload
   },
   nonProfits (state, payload) {
     this.state.nonProfits = payload

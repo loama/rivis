@@ -39,7 +39,6 @@ exports.nonProfits = functions.https.onRequest((request, response) => {
 
 exports.payments = functions.https.onRequest((request, response) => {
   response.set('Access-Control-Allow-Origin', '*')
-
   var body = {
       "clientReferenceInformation": {
           "code": "TC50171_3"
@@ -80,17 +79,16 @@ exports.payments = functions.https.onRequest((request, response) => {
               "email": "test@cybs.com"
           },
           "amountDetails": {
-              "totalAmount": "104.21",
+              "totalAmount": request.body.amount,
               "currency": "USD"
           }
       },
       "paymentInformation": {
           "card": {
-              "expirationYear": "2031",
-              "number": "5555555555554444",
-              "securityCode": "123",
-              "expirationMonth": "12",
-              "type": "002"
+              "expirationYear": request.body.expirationYear,
+              "number": request.body.number,
+              "securityCode": request.body.securityCode,
+              "expirationMonth": request.body.expirationMonth
           }
       }
     }

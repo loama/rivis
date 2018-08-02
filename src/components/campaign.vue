@@ -1,6 +1,6 @@
 <template>
   <div class="campaign">
-    <div class="donate-div">
+    <div class="donate-div" v-on:click="modalChange(true, nonProfit)">
       DONATE
     </div>
 
@@ -106,6 +106,10 @@ export default {
         console.log(err)
         this.article.parsedTitle = 'we couldn´t find that article :('
       })
+    },
+    modalChange (bol, nonProfit) {
+      nonProfit.active = bol
+      this.$store.commit('modal', nonProfit)
     }
   },
   mounted () {
@@ -142,7 +146,7 @@ export default {
 <style scoped>
 .campaign {
   text-align: left;
-  padding: 156px 12px 24px 24px;
+  padding: 124px 12px 24px 24px;
   background: #FFFFFF;
 }
 
